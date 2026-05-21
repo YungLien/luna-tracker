@@ -1,0 +1,377 @@
+/* ── Backdrop ──────────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(50, 30, 10, 0.28);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 40;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+
+.backdropOpen {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop { transition: none; }
+}
+
+/* ── Sheet ─────────────────────────────────────────────────── */
+
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%;
+  max-width: 480px;
+  height: 68dvh;
+  background: var(--cream);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -6px 40px rgba(100, 65, 30, 0.16);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* exit: ease-in, slightly faster */
+  transition: transform 240ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+.sheetOpen {
+  transform: translateX(-50%) translateY(0);
+  /* enter: spring-like cubic-bezier (iOS sheet feel) */
+  transition: transform 340ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheetOpen { transition: none; }
+}
+
+/* ── Drag handle ───────────────────────────────────────────── */
+
+.handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(160, 120, 80, 0.25);
+  border-radius: 99px;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 8px;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--font-heading);
+}
+
+.closeBtn {
+  background: rgba(160, 120, 80, 0.12);
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  background: rgba(160, 120, 80, 0.22);
+  color: var(--text);
+}
+
+/* ── Scrollable body ───────────────────────────────────────── */
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 14px 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ── Loading ───────────────────────────────────────────────── */
+
+.loadingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.loadingDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: bounce 1.2s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingDot { animation: none; opacity: 0.6; }
+}
+
+/* ── Run card ──────────────────────────────────────────────── */
+
+.runCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.runLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.km {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Day cards ─────────────────────────────────────────────── */
+
+.dayList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dayCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Tappable header row */
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s ease;
+}
+
+.dayHeader:active {
+  background: rgba(160, 120, 80, 0.06);
+}
+
+.dayLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dayLabelFuture {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+.dayHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dayTotal {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--cream);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+
+.dayUpcoming {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+}
+
+.chevron {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-muted);
+  opacity: 0.45;
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 220ms ease;
+  line-height: 1;
+  margin-top: -1px;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron { transition: none; }
+}
+
+/* ── Accordion collapse ────────────────────────────────────── */
+
+.collapseWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collapseOpen {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapseWrap { transition: none; }
+}
+
+.collapseInner {
+  overflow: hidden;
+  padding: 0 14px;
+}
+
+.collapseInnerOpen {
+  padding-bottom: 12px;
+}
+
+.futureNote {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-style: italic;
+  margin: 0;
+  padding: 4px 0 2px;
+}
+
+/* ── Meal rows ─────────────────────────────────────────────── */
+
+.mealList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 2px;
+}
+
+.mealRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mealTag {
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 60px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mealDesc {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mealDescEmpty {
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.mealScore {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+.scoreHigh  { background: #8aaa7a22; color: #4e7a3e; }
+.scoreMid   { background: #e8a87c22; color: #a06030; }
+.scoreLow   { background: #e07a7a22; color: #b84040; }
+.scoreSnack { background: #b8a0c822; color: #7a60a0; }
+
+/* ── Insights ──────────────────────────────────────────────── */
+
+.insightCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.insightTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.insightText {
+  font-size: 13px;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}

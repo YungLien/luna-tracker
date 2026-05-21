@@ -1,0 +1,197 @@
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 24px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.logBtn, .editBtn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  line-height: 1;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.logBtn:active, .editBtn:active {
+  opacity: 0.8;
+  transform: scale(0.97);
+}
+
+.logBtn {
+  background: var(--accent);
+  color: white;
+}
+
+.editBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid #ddd;
+}
+
+.logged {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.desc {
+  font-size: 14px;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.score {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.healthy { color: var(--healthy); }
+.neutral { color: var(--text-muted); }
+
+.form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid #e0d8d0;
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.sliderRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sliderLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tagLabel {
+  font-size: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actionsRight {
+  display: flex;
+  gap: 6px;
+}
+
+.deleteBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  font-family: inherit;
+  background: transparent;
+  color: #c0392b;
+  transition: opacity 0.15s ease;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelBtn, .saveBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  font-family: inherit;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.cancelBtn:active, .saveBtn:active {
+  opacity: 0.8;
+  transform: scale(0.97);
+}
+
+.cancelBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid #ddd;
+}
+
+.saveBtn {
+  background: var(--accent);
+  color: white;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

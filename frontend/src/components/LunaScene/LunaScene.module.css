@@ -1,0 +1,79 @@
+.luna {
+  position: absolute;
+  top: 32%;
+  left: 67%;
+  transform: translateX(-50%);
+  width: 230px;
+  height: 230px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Morning: sofa right-center */
+.morning {
+  top: 41%;
+  left: 50%;
+  width: 215px;
+  height: 215px;
+}
+
+/* Afternoon: window bench left */
+.afternoon {
+  top: 29%;
+  left: 27%;
+}
+
+/* Night: sofa right-center */
+.night {
+  top: 33%;
+  left: 63%;
+}
+
+/* Night with no meals: sleepy_cat sits higher in its bounding box */
+.night.empty {
+  top: 36%;
+}
+
+/* playful_cat is a larger pose — boost size slightly */
+.playful {
+  width: 240px;
+  height: 240px;
+}
+
+/* playful_cat (run): larger sprite — per time-of-day scene (backend uses morning before 11:00) */
+.morningPlayful {
+  top: 37%;
+  left: 50%;
+}
+
+/* afternoon run pose: same anchor as .afternoon + .afternoonTickling (windowsill) */
+.afternoonPlayful {
+  top: 28%;
+  left: 27%;
+}
+
+.nightPlayful {
+  top: 30%;
+  left: 63%;
+}
+
+/* cat_tickling (healthy meal): nudge up — must appear after base scene in stylesheet */
+.morningTickling {
+  top: 38%;
+}
+
+.afternoonTickling {
+  top: 28%;
+}
+
+.nightTickling {
+  top: 30%;
+}
+
+/* unhappy_cat (unhealthy meal) at night — sprite reads large on sofa */
+.nightUnhappy {
+  width: 195px;
+  height: 195px;
+}

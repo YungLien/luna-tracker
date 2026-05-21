@@ -1,0 +1,46 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #fdf6ee;
+  --card-bg: rgba(255, 253, 248, 0.92);
+  --text: #3a2e24;
+  --text-muted: #8a7468;
+  --healthy: #8aaa7a;
+  --neutral: #c9a88a;
+  --accent: #e8a87c;
+  --radius: 16px;
+  --shadow: 0 2px 8px rgba(80, 50, 20, 0.08);
+  --font-heading: 'Varela Round', sans-serif;
+  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--cream);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global focus-visible ring — warm amber to match brand */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Remove default outline only when focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}

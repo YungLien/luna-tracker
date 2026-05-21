@@ -1,0 +1,83 @@
+.page {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(253, 246, 238, 0.96) 45%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.luna {
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  z-index: 2;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 56px;
+  gap: 8px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--font-heading);
+}
+
+.tagline {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.stravaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fc4c02;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  min-height: 44px;
+  font-family: var(--font-heading);
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.stravaBtn:hover {
+  opacity: 0.92;
+}
+
+.stravaBtn:active {
+  opacity: 0.8;
+  transform: scale(0.97);
+}

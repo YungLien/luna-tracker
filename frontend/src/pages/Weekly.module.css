@@ -1,0 +1,280 @@
+.page {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--cream);
+  padding: 0 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  color: var(--text-muted);
+  background: var(--cream);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.loadingDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: lunaBounceDash 1.2s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@keyframes lunaBounceDash {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingDot { animation: none; opacity: 0.6; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0 6px;
+}
+
+.back {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px 12px 8px 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--font-heading);
+}
+
+.runCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.runLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.km {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Weekly total banner */
+
+.weekTotal {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weekTotalLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.weekTotalScore {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.weekTotalMax {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Day cards */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dayCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dayFuture {
+  opacity: 0.45;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dayLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dayTotal {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--cream);
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+
+.dayUpcoming {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  opacity: 0.6;
+}
+
+.mealList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mealRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mealTag {
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 9px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 68px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mealDesc {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mealDescEmpty {
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.mealScore {
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 2px 9px;
+  flex-shrink: 0;
+}
+
+.scoreHigh {
+  background: #8aaa7a22;
+  color: #5a8a4a;
+}
+
+.scoreMid {
+  background: #e8a87c22;
+  color: #b07040;
+}
+
+.scoreLow {
+  background: #e07a7a22;
+  color: #c05050;
+}
+
+.scoreSnack {
+  background: #b8a0c822;
+  color: #8a70a8;
+}
+
+/* Insights */
+
+.insightCard {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.insightTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.insightText {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}

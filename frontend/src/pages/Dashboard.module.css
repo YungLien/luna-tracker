@@ -1,0 +1,114 @@
+.page {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  background-size: cover;
+  background-position: center 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100dvh;
+  color: var(--text-muted);
+  background: var(--cream);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.loadingDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: lunaBounceDash 1.2s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@keyframes lunaBounceDash {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingDot { animation: none; opacity: 0.6; }
+}
+
+/* Gradient fade so cards are readable over the scene */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(253, 246, 238, 0.97) 50%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 3;
+  padding: 0 16px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weeklyLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1.5px solid var(--accent);
+  border-radius: 20px;
+  background: rgba(232, 168, 124, 0.1);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.weeklyLink:hover {
+  background: rgba(232, 168, 124, 0.25);
+}
+
+.weeklyLink:active {
+  transform: scale(0.96);
+}
+
+.greeting {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.8);
+  font-family: var(--font-heading);
+}
+
+.meals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
