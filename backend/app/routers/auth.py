@@ -10,7 +10,7 @@ from app.services.strava import exchange_code_for_tokens
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-FRONTEND_CALLBACK = "http://localhost:5173/callback"
+FRONTEND_CALLBACK = os.getenv("FRONTEND_URL", "http://localhost:5173") + "/callback"
 
 
 def _create_jwt(user_id: str) -> str:
