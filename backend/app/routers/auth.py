@@ -10,7 +10,6 @@ from app.services.strava import exchange_code_for_tokens
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-FRONTEND_CALLBACK = os.getenv("FRONTEND_URL", "http://localhost:5173") + "/callback"
 
 
 def _create_jwt(user_id: str) -> str:
@@ -79,7 +78,8 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
     user_id = result.data[0]["id"]
     token = _create_jwt(user_id)
 
-    return RedirectResponse(f"{FRONTEND_CALLBACK}?token={token}")
+    frontend_callback = os.getenv("FRONTEND_URL", "http://localhost:5173") + "/callback"
+    return RedirectResponse(f"{frontend_callback}?token={token}")
 
 
 @router.post("/logout")
