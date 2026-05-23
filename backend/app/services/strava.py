@@ -1,3 +1,4 @@
+import hashlib
 import time
 from datetime import datetime, timezone
 from typing import Any
@@ -86,6 +87,8 @@ async def check_strava_application_credentials() -> dict[str, Any]:
         "strava_client_secret_set": bool(secret),
         "strava_client_id": cid,  # not secret — visible in /oauth/authorize URL
         "strava_client_secret_length": len(secret),
+        # Compare with local: shasum -a 256 <<<"$STRAVA_CLIENT_SECRET" | cut -c1-12
+        "strava_client_secret_fingerprint": hashlib.sha256(secret.encode()).hexdigest()[:12],
     }
     if not cid or not secret:
         info["strava_credentials_valid"] = False
