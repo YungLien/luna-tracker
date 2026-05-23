@@ -1,23 +1,35 @@
-import os
 import time
 from datetime import datetime, timezone
 from typing import Any
 
 import httpx
 
+from app.config import _env
+
 STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
 STRAVA_API_BASE = "https://www.strava.com/api/v3"
+
+
+def _strava_oauth_client_fields() -> dict[str, str]:
+    return {
+        "client_id": _env("STRAVA_CLIENT_ID"),
+        "client_secret": _env("STRAVA_CLIENT_SECRET"),
+    }
 
 
 async def exchange_code_for_tokens(code: str) -> dict[str, Any]:
     """Exchange OAuth authorization code for access + refresh tokens."""
     async with httpx.AsyncClient() as client:
-        resp = await client.post(STRAVA_TOKEN_URL, data={
-            "client_id": os.environ["STRAVA_CLIENT_ID"],
-            "client_secret": os.environ["STRAVA_CLIENT_SECRET"],
-            "code": code,
-            "grant_type": "authorization_code",
-        })
+        resp = await client.post(
+            STRAVA_TOKEN_URL,
+            data={
+                **_strava_oauth_client_fields(),
+                "code": code,
+                "grant_type": "authorization_code",
+                # Must match redirect_uri used in /oauth/authorize (Strava requirement).
+                "redirect_uri": _env("STRAVA_REDIRECT_URI"),
+            },
+        )
         resp.raise_for_status()
         return resp.json()
 
@@ -25,12 +37,14 @@ async def exchange_code_for_tokens(code: str) -> dict[str, Any]:
 async def refresh_access_token(refresh_token: str) -> dict[str, Any]:
     """Get a fresh access token using the stored refresh token."""
     async with httpx.AsyncClient() as client:
-        resp = await client.post(STRAVA_TOKEN_URL, data={
-            "client_id": os.environ["STRAVA_CLIENT_ID"],
-            "client_secret": os.environ["STRAVA_CLIENT_SECRET"],
-            "refresh_token": refresh_token,
-            "grant_type": "refresh_token",
-        })
+        resp = await client.post(
+            STRAVA_TOKEN_URL,
+            data={
+                **_strava_oauth_client_fields(),
+                "refresh_token": refresh_token,
+                "grant_type": "refresh_token",
+            },
+        )
         resp.raise_for_status()
         return resp.json()
 

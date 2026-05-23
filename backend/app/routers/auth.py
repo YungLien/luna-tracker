@@ -1,11 +1,12 @@
 import os
 from datetime import datetime, timedelta, timezone
 
+import httpx
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from jose import jwt
 
-from app.config import frontend_base_url
+from app.config import _env, frontend_base_url
 from app.db.supabase import get_supabase
 from app.services.strava import exchange_code_for_tokens
 
@@ -25,8 +26,8 @@ def _create_jwt(user_id: str) -> str:
 @router.get("/strava")
 async def strava_login():
     """Redirect user to Strava OAuth consent page."""
-    client_id = os.environ["STRAVA_CLIENT_ID"]
-    redirect_uri = os.environ["STRAVA_REDIRECT_URI"]
+    client_id = _env("STRAVA_CLIENT_ID")
+    redirect_uri = _env("STRAVA_REDIRECT_URI")
     url = (
         "https://www.strava.com/oauth/authorize"
         f"?client_id={client_id}"
@@ -45,7 +46,14 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
 
     try:
         tokens = await exchange_code_for_tokens(code)
-    except Exception as e:
+    except httpx.HTTPStatusError as e:
+        # Strava returns useful text, e.g. bad client_secret or redirect_uri mismatch.
+        msg = (e.response.text or "")[:300]
+        raise HTTPException(
+            status_code=502,
+            detail=f"Strava token exchange failed: {msg or e.response.status_code}",
+        )
+    except Exception:
         raise HTTPException(status_code=502, detail="Failed to exchange Strava code")
 
     athlete = tokens.get("athlete", {})
