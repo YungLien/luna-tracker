@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from jose import jwt
 
+from app.config import frontend_base_url
 from app.db.supabase import get_supabase
 from app.services.strava import exchange_code_for_tokens
 
@@ -78,7 +79,7 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
     user_id = result.data[0]["id"]
     token = _create_jwt(user_id)
 
-    frontend_callback = os.getenv("FRONTEND_URL", "http://localhost:5173") + "/callback"
+    frontend_callback = f"{frontend_base_url()}/callback"
     return RedirectResponse(f"{frontend_callback}?token={token}")
 
 

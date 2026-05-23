@@ -5,6 +5,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.config import public_config_status
 from app.routers import auth, meals, activities, dashboard
 
 app = FastAPI(title="Luna Tracker API")
@@ -28,4 +29,4 @@ app.include_router(dashboard.router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    return {"status": "ok", "config": public_config_status()}

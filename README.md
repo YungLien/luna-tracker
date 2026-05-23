@@ -38,6 +38,11 @@ cp .env.example .env   # fill in VITE_API_BASE_URL
 npm run dev
 ```
 
+## Deploy backend (Railway)
+
+This repo is a monorepo — set Railway **Root Directory** to **`backend`**, then redeploy.  
+See [`docs/DEPLOY_RAILWAY.md`](docs/DEPLOY_RAILWAY.md) for env vars and Strava callback URL.
+
 ## Database security (Supabase)
 
 If Security Advisor shows **RLS disabled** on your tables, run the SQL in  
