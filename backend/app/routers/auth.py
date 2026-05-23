@@ -15,7 +15,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 def _create_jwt(user_id: str) -> str:
-    secret = os.environ["JWT_SECRET"]
+    secret = _env("JWT_SECRET")
+    if not secret:
+        raise HTTPException(status_code=500, detail="JWT_SECRET is not set on the server")
     payload = {
         "sub": user_id,
         "exp": datetime.now(timezone.utc) + timedelta(days=30),
@@ -61,8 +63,6 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
     if not strava_id:
         raise HTTPException(status_code=502, detail="No athlete data from Strava")
 
-    supabase = get_supabase()
-
     user_data = {
         "strava_id": strava_id,
         "name": f"{athlete.get('firstname', '')} {athlete.get('lastname', '')}".strip(),
@@ -74,15 +74,21 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
         ).isoformat(),
     }
 
-    # Upsert by strava_id — creates or updates the user row
-    result = (
-        supabase.table("users")
-        .upsert(user_data, on_conflict="strava_id")
-        .execute()
-    )
+    try:
+        supabase = get_supabase()
+        result = (
+            supabase.table("users")
+            .upsert(user_data, on_conflict="strava_id")
+            .execute()
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Failed to save user to Supabase: {str(exc)[:300]}",
+        )
 
     if not result.data:
-        raise HTTPException(status_code=500, detail="Failed to save user")
+        raise HTTPException(status_code=500, detail="Failed to save user (empty response)")
 
     user_id = result.data[0]["id"]
     token = _create_jwt(user_id)

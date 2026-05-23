@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import public_config_status
+from app.db.supabase import check_supabase_connection
 from app.routers import auth, meals, activities, dashboard
 from app.services.strava import check_strava_application_credentials
 
@@ -30,5 +31,9 @@ app.include_router(dashboard.router)
 
 @app.get("/health")
 async def health():
-    config = {**public_config_status(), **await check_strava_application_credentials()}
+    config = {
+        **public_config_status(),
+        **await check_strava_application_credentials(),
+        **check_supabase_connection(),
+    }
     return {"status": "ok", "config": config}
