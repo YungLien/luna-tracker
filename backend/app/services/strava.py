@@ -74,6 +74,54 @@ async def get_valid_access_token(user: dict[str, Any], supabase) -> str:
     return user["access_token"]
 
 
+async def check_strava_application_credentials() -> dict[str, Any]:
+    """
+    Probe Strava with a fake code. If app id/secret are wrong, Strava returns
+    Application invalid; if they are OK, Strava returns an error about the code instead.
+    """
+    cid = _env("STRAVA_CLIENT_ID")
+    secret = _env("STRAVA_CLIENT_SECRET")
+    info: dict[str, Any] = {
+        "strava_client_id_set": bool(cid),
+        "strava_client_secret_set": bool(secret),
+        "strava_client_id": cid,  # not secret — visible in /oauth/authorize URL
+        "strava_client_secret_length": len(secret),
+    }
+    if not cid or not secret:
+        info["strava_credentials_valid"] = False
+        info["strava_credentials_hint"] = (
+            "STRAVA_CLIENT_ID or STRAVA_CLIENT_SECRET is empty in this server environment."
+        )
+        return info
+
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            STRAVA_TOKEN_URL,
+            data={
+                "client_id": cid,
+                "client_secret": secret,
+                "code": "0" * 40,
+                "grant_type": "authorization_code",
+                "redirect_uri": _env("STRAVA_REDIRECT_URI"),
+            },
+        )
+    body = resp.text
+    body_lower = body.lower()
+    if "application" in body_lower and "invalid" in body_lower:
+        info["strava_credentials_valid"] = False
+        info["strava_credentials_hint"] = (
+            "Strava rejected client_id + client_secret. "
+            "Re-copy both from https://www.strava.com/settings/api (same app), "
+            "paste into Railway without quotes, then redeploy."
+        )
+    else:
+        info["strava_credentials_valid"] = True
+        info["strava_credentials_hint"] = (
+            "Strava accepted your app credentials (fake code error is expected)."
+        )
+    return info
+
+
 async def get_athlete_activities(access_token: str, after_timestamp: int) -> list[dict[str, Any]]:
     """Fetch activities from Strava that started after the given Unix timestamp."""
     async with httpx.AsyncClient() as client:

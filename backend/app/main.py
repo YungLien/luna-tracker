@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import public_config_status
 from app.routers import auth, meals, activities, dashboard
+from app.services.strava import check_strava_application_credentials
 
 app = FastAPI(title="Luna Tracker API")
 
@@ -29,4 +30,5 @@ app.include_router(dashboard.router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "config": public_config_status()}
+    config = {**public_config_status(), **await check_strava_application_credentials()}
+    return {"status": "ok", "config": config}
