@@ -27,7 +27,7 @@ def check_supabase_connection() -> dict:
         "supabase_url_set": bool(url),
         "supabase_service_key_set": bool(key),
         "supabase_service_key_length": len(key),
-        "supabase_service_key_prefix_ok": key.startswith("sb_secret_") or key.startswith("eyJ"),
+        "supabase_service_key_prefix_ok": key.startswith("sb_secret_") or key.startswith("eyJ") or key.startswith("sbp_"),
     }
     if not url or not key:
         info["supabase_ok"] = False

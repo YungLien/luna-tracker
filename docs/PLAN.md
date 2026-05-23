@@ -150,17 +150,15 @@ Goal: App is installable on iPhone. Weekly summary view works. Deployed to Verce
 - [x] App installs and launches correctly on iPhone Safari ✓
 
 ### Deployment
-- [ ] Push to GitHub
-- [ ] Deploy backend to Railway
-      → Set all env vars in Railway dashboard
-      → Update STRAVA_REDIRECT_URI to Railway URL
-- [ ] Deploy frontend to Vercel
-      → Set VITE_API_BASE_URL to Railway backend URL
-      → Update CORS in backend main.py to allow Vercel domain
-- [ ] Re-test full OAuth flow on production URLs
-- [ ] Update Strava app callback domain to production domain
+- [x] Push to GitHub
+- [x] Deploy backend to Railway
+      → https://luna-tracker-production-4ad0.up.railway.app
+- [x] Deploy frontend to Vercel
+      → https://luna-tracker-iota.vercel.app
+- [x] Re-test full OAuth flow on production URLs — works end to end
+- [x] Update Strava app callback domain to production domain
 
-**Week 4 milestone:** Live URL. Installable on iPhone. All 5 habit categories working.
+**Week 4 milestone:** Live URL. Installable on iPhone. All 5 habit categories working. ✓ COMPLETE
 
 ---
 

@@ -33,8 +33,9 @@ Luna Tracker. Read this entire file before writing any code or making suggestion
 - [x] WeeklySheet bottom sheet component (Dashboard "This week" button)
 - [x] Weekly.jsx standalone page + /weekly route in App.jsx
 - [x] Bug fix: first_open_today hardcoded False → now tracked via localStorage luna_last_open
-- [ ] Manual QA: 7 items (meal pose, bubble tea, streak, run, night, iPhone install)
-- [ ] Deployed to Vercel + Railway (Week 4)
+- [x] Manual QA: all 7 items passed
+- [x] Backend deployed to Railway
+- [x] Frontend deployed to Vercel
 
 ---
 
@@ -281,15 +282,20 @@ Do NOT use `mix-blend-mode: screen` (that's for black backgrounds).
 
 ---
 
-## What Remains (Week 4)
+## Deployment URLs
 
-Most of Week 4 is complete. The app is fully functional locally. Remaining work:
+| Service | URL |
+|---|---|
+| Backend (Railway) | https://luna-tracker-production-4ad0.up.railway.app |
+| Frontend (Vercel) | https://luna-tracker-iota.vercel.app |
 
-1. **Manual QA** — 7 browser/device tests (see PLAN.md QA checklist)
-2. **iPhone install test** — Safari "Add to Home Screen", confirm full-screen launch with Luna icon
-3. **Deploy** — Railway (backend) + Vercel (frontend), update Strava callback domain, update CORS
+Strava callback domain set to: `luna-tracker-production-4ad0.up.railway.app`
 
-See PLAN.md Week 4 for task breakdown.
+---
+
+## Build Status
+
+**v1 COMPLETE.** All 4 weeks done. App is live and fully functional.
 
 ### WeeklySheet implementation note
 Weekly summary was built as a **bottom sheet** (`WeeklySheet.jsx`) launched from a "This week" button on the Dashboard, rather than a separate page. A standalone `Weekly.jsx` page with `/weekly` route also exists. No Recharts — uses plain CSS layout with collapsible day cards and auto-generated insights.
