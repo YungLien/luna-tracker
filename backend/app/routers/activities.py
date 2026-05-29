@@ -1,3 +1,4 @@
+import asyncio
 import math
 from datetime import date, datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
@@ -37,12 +38,8 @@ async def get_activities_today(user: dict = Depends(get_current_user)):
     supabase = get_supabase()
     today = datetime.now(MELBOURNE_TZ).date().isoformat()
 
-    result = (
-        supabase.table("activities")
-        .select("*")
-        .eq("user_id", user["id"])
-        .eq("date", today)
-        .execute()
+    result = await asyncio.to_thread(
+        lambda: supabase.table("activities").select("*").eq("user_id", user["id"]).eq("date", today).execute()
     )
 
     return result.data or []
@@ -57,13 +54,8 @@ async def get_activities_history(
     supabase = get_supabase()
     since = (datetime.now(MELBOURNE_TZ).date() - timedelta(days=days)).isoformat()
 
-    result = (
-        supabase.table("activities")
-        .select("*")
-        .eq("user_id", user["id"])
-        .gte("date", since)
-        .order("date", desc=True)
-        .execute()
+    result = await asyncio.to_thread(
+        lambda: supabase.table("activities").select("*").eq("user_id", user["id"]).gte("date", since).order("date", desc=True).execute()
     )
 
     return result.data or []
@@ -117,10 +109,8 @@ async def sync_activities(
             "date": activity_date.isoformat(),
         }
 
-        result = (
-            supabase.table("activities")
-            .upsert(row, on_conflict="user_id,strava_activity_id")
-            .execute()
+        result = await asyncio.to_thread(
+            lambda r=row: supabase.table("activities").upsert(r, on_conflict="user_id,strava_activity_id").execute()
         )
         if result.data:
             upserted.extend(result.data)

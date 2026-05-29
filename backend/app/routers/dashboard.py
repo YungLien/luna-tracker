@@ -1,3 +1,4 @@
+import asyncio
 from datetime import date, datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
@@ -52,22 +53,14 @@ async def get_dashboard_today(first_open: bool = False, user: dict = Depends(get
     today = now.date().isoformat()
 
     # Fetch today's meals
-    meals_result = (
-        supabase.table("meals")
-        .select("*")
-        .eq("user_id", user["id"])
-        .eq("date", today)
-        .execute()
+    meals_result = await asyncio.to_thread(
+        lambda: supabase.table("meals").select("*").eq("user_id", user["id"]).eq("date", today).execute()
     )
     meals_list = meals_result.data or []
 
     # Fetch today's activities
-    activities_result = (
-        supabase.table("activities")
-        .select("*")
-        .eq("user_id", user["id"])
-        .eq("date", today)
-        .execute()
+    activities_result = await asyncio.to_thread(
+        lambda: supabase.table("activities").select("*").eq("user_id", user["id"]).eq("date", today).execute()
     )
     activities_list = activities_result.data or []
 
@@ -90,7 +83,7 @@ async def get_dashboard_today(first_open: bool = False, user: dict = Depends(get
         activity = ActivitySummary(has_run=False)
 
     # Streak
-    streak = _compute_streak(supabase, user["id"])
+    streak = await asyncio.to_thread(lambda: _compute_streak(supabase, user["id"]))
 
     luna_data = get_luna_state(
         now=now,

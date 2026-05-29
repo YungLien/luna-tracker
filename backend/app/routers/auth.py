@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timedelta, timezone
 
 import httpx
@@ -75,10 +76,8 @@ async def strava_callback(code: str = Query(...), error: str | None = Query(None
 
     try:
         supabase = get_supabase()
-        result = (
-            supabase.table("users")
-            .upsert(user_data, on_conflict="strava_id")
-            .execute()
+        result = await asyncio.to_thread(
+            lambda: supabase.table("users").upsert(user_data, on_conflict="strava_id").execute()
         )
     except Exception as exc:
         raise HTTPException(

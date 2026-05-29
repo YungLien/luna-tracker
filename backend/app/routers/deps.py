@@ -1,3 +1,4 @@
+import asyncio
 import os
 from typing import Any
 
@@ -29,7 +30,9 @@ async def get_current_user(
         )
 
     supabase = get_supabase()
-    result = supabase.table("users").select("*").eq("id", user_id).execute()
+    result = await asyncio.to_thread(
+        lambda: supabase.table("users").select("*").eq("id", user_id).execute()
+    )
 
     if not result.data:
         raise HTTPException(
