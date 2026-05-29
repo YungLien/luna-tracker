@@ -35,7 +35,9 @@ In [Strava API settings](https://www.strava.com/settings/api), set **Authorizati
 
 ## Verify
 
-After deploy: open `https://<your-railway-domain>/health` — should return `{"status":"ok"}`.
+After deploy:
+- `https://<your-railway-domain>/health` — quick liveness (`{"status":"ok"}`)
+- `https://<your-railway-domain>/health/diagnostics` — Strava + Supabase probes (use to debug env)
 
 ## Frontend
 

@@ -39,5 +39,11 @@ def check_supabase_connection() -> dict:
         info["supabase_hint"] = "Database reachable."
     except Exception as exc:
         info["supabase_ok"] = False
-        info["supabase_hint"] = str(exc)[:240]
+        hint = str(exc)[:240]
+        if "timeout" in hint.lower() or "timed out" in hint.lower():
+            hint = (
+                "Supabase connection timed out. Check project is not paused "
+                "(Supabase dashboard) and SUPABASE_URL is correct."
+            )
+        info["supabase_hint"] = hint
     return info

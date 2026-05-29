@@ -30,10 +30,25 @@ app.include_router(dashboard.router)
 
 
 @app.get("/health")
-async def health():
-    config = {
-        **public_config_status(),
-        **await check_strava_application_credentials(),
-        **check_supabase_connection(),
-    }
-    return {"status": "ok", "config": config}
+def health():
+    """Lightweight liveness check for Railway — no external network calls."""
+    return {"status": "ok"}
+
+
+@app.get("/health/diagnostics")
+async def health_diagnostics():
+    """Full env + Strava/Supabase probes (may be slow; never returns 500)."""
+    config = {**public_config_status()}
+    try:
+        config.update(await check_strava_application_credentials())
+    except Exception as exc:
+        config["strava_credentials_valid"] = None
+        config["strava_credentials_hint"] = f"Strava check crashed: {exc}"[:200]
+    try:
+        config.update(check_supabase_connection())
+    except Exception as exc:
+        config["supabase_ok"] = False
+        config["supabase_hint"] = f"Supabase check crashed: {exc}"[:200]
+
+    ready = config.get("supabase_ok") is True and config.get("strava_credentials_valid") is True
+    return {"status": "ok" if ready else "degraded", "config": config}

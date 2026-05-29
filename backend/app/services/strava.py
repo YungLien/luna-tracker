@@ -97,17 +97,27 @@ async def check_strava_application_credentials() -> dict[str, Any]:
         )
         return info
 
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            STRAVA_TOKEN_URL,
-            data={
-                "client_id": cid,
-                "client_secret": secret,
-                "code": "0" * 40,
-                "grant_type": "authorization_code",
-                "redirect_uri": _env("STRAVA_REDIRECT_URI"),
-            },
-        )
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            resp = await client.post(
+                STRAVA_TOKEN_URL,
+                data={
+                    "client_id": cid,
+                    "client_secret": secret,
+                    "code": "0" * 40,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": _env("STRAVA_REDIRECT_URI"),
+                },
+            )
+    except httpx.TimeoutException:
+        info["strava_credentials_valid"] = None
+        info["strava_credentials_hint"] = "Strava probe timed out (network); credentials not verified."
+        return info
+    except httpx.HTTPError as exc:
+        info["strava_credentials_valid"] = None
+        info["strava_credentials_hint"] = f"Strava probe failed: {exc}"[:200]
+        return info
+
     body = resp.text
     body_lower = body.lower()
     if "application" in body_lower and "invalid" in body_lower:
